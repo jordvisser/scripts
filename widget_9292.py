@@ -34,6 +34,7 @@ with urllib.request.urlopen(departures_url + '?' + request_data) as response:
 
 departures_data = json.loads(response_data.decode(encoding))
 departures = departures_data['tabs'][0]['departures']
-departures_filtered_destination = {k: v for k, v in enumerate(departures) if v['destinationName'] == 'Gouda'}
-departures_filtered_time = departures_filtered_destination
-pp.pprint(departures_filtered_time)
+departures_filtered_destination = [v for v in departures if v['destinationName'] == 'Gouda']
+departures_list = departures_filtered_destination[0:2]
+
+pp.pprint(departures_list)
