@@ -50,10 +50,11 @@ for depa in departures_list:
         dTime = dTime + dt.timedelta(seconds=minutes*60)
         depText = '{} minuten vertraagd'.format(minutes)
     else:
-        depText = '--{}--'.format(depa['realtimeState'])
+        minutes = int(depa['realtimeText'].split(' ')[0])
+        depText = '-- {} || {} min. --'.format(depa['realtimeState'], minutes)
 
     deltaNow = dTime - now
     deltaCalc = divmod(deltaNow.days * 86400 + deltaNow.seconds, 60)
-    print('Bus is {} en vertrekt om {} dat is over {} minuten.'.format(depText,dTime.strftime('%H:%M'),deltaCalc[0]))
+    print('Bus {} is {} en vertrekt over {} minuten om {}.'.format(depa['service'],depText,deltaCalc[0],dTime.strftime('%H:%M')))
 
 pp.pprint(departures_list)
