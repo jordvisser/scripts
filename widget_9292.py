@@ -46,7 +46,7 @@ for depa in departures_list:
         dTime = dTime + dt.timedelta(days=1)
     if depa['realtimeState'] == 'ontime':
         depText = 'op tijd'
-        sys.stdout.write("\033[0;32m")
+        sys.stdout.write("\033[1;32m")
     elif depa['realtimeState'] == 'late':
         minutes = int(depa['realtimeText'].split(' ')[0])
         dTime = dTime + dt.timedelta(seconds=minutes*60)
@@ -59,7 +59,11 @@ for depa in departures_list:
 
     deltaNow = dTime - now
     deltaCalc = divmod(deltaNow.days * 86400 + deltaNow.seconds, 60)
-    print('Bus {} is {} en vertrekt over {} minuten om {}.'.format(depa['service'],depText,deltaCalc[0],dTime.strftime('%H:%M')))
-    sys.stdout.write("\033[0m")
+    sys.stdout.write("\033[1m")
+    if deltaCalc[0] < 60:
+        print('Bus {} is {} en vertrekt over {} minuten om {}.'.format(depa['service'],depText,deltaCalc[0],dTime.strftime('%H:%M')))
+    else:
+        sys.stdout.write("\033[0m")
+        break
 
 pp.pprint(departures_list)
