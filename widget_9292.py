@@ -60,7 +60,7 @@ for depa in departures_list:
     deltaNow = dTime - now
     deltaCalc = divmod(deltaNow.days * 86400 + deltaNow.seconds, 60)
     sys.stdout.write("\033[1m")
-    if deltaCalc[0] < 60:
+    if deltaCalc[0] < 70:
         print('Bus {} is {} en vertrekt over {} minuten om {}.'.format(depa['service'],depText,deltaCalc[0],dTime.strftime('%H:%M')))
     else:
         sys.stdout.write("\033[0m")
