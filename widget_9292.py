@@ -2,6 +2,7 @@
 
 # https://api.9292.nl/0.1/locations?lang=nl-NL&type=station,stop&q=plaszicht
 # https://api.9292.nl/0.1/locations/reeuwijk/bushalte-plaszicht/departure-times?lang=nl-NL
+import sys
 import json
 import urllib.request
 import datetime as dt
@@ -45,16 +46,20 @@ for depa in departures_list:
         dTime = dTime + dt.timedelta(days=1)
     if depa['realtimeState'] == 'ontime':
         depText = 'op tijd'
+        sys.stdout.write("\033[0;32m")
     elif depa['realtimeState'] == 'late':
         minutes = int(depa['realtimeText'].split(' ')[0])
         dTime = dTime + dt.timedelta(seconds=minutes*60)
         depText = '{} minuten vertraagd'.format(minutes)
+        sys.stdout.write("\033[1;31m")
     else:
         minutes = int(depa['realtimeText'].split(' ')[0])
         depText = '-- {} || {} min. --'.format(depa['realtimeState'], minutes)
+        sys.stdout.write("\033[38;5;208m")
 
     deltaNow = dTime - now
     deltaCalc = divmod(deltaNow.days * 86400 + deltaNow.seconds, 60)
     print('Bus {} is {} en vertrekt over {} minuten om {}.'.format(depa['service'],depText,deltaCalc[0],dTime.strftime('%H:%M')))
+    sys.stdout.write("\033[0m")
 
 pp.pprint(departures_list)
