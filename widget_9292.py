@@ -95,5 +95,3 @@ if len(departures_output) == 0:
 else:
     for depout in departures_output:
         print(depout)
-
-#
