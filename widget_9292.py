@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+# widget_9292.py
+# a script to return upcoming departues for busses near my place of work
+#
+#
+
 # https://api.9292.nl/0.1/locations?lang=nl-NL&type=station,stop&q=plaszicht
 # https://api.9292.nl/0.1/locations/reeuwijk/bushalte-plaszicht/departure-times?lang=nl-NL
 # import sys
