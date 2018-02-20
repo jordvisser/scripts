@@ -45,11 +45,11 @@ departures_list = departures_filtered_dest  # [0:2]
 
 departures_output = []
 
+# pp.pprint(departures_list)
+
 for depa in departures_list:
     dTime_string = '{} {}'.format(now.strftime('%Y-%m-%d'), depa['time'])
     dTime = dt.datetime.strptime(dTime_string, '%Y-%m-%d %H:%M')
-    if dTime < now:
-        dTime = dTime + dt.timedelta(days=1)
     if depa['realtimeState'] == 'ontime':
         depText = 'op tijd'
         # sys.stdout.write("\033[1;32m")
@@ -58,16 +58,34 @@ for depa in departures_list:
         dTime = dTime + dt.timedelta(seconds=minutes * 60)
         depText = '{} minuten vertraagd'.format(minutes)
         # sys.stdout.write("\033[1;31m")
-    else:
+    elif depa['realtimeState'] == 'left':
+        depText = 'al vertrokken'
+    elif depa['realtimeState'] == 'early':
         minutes = int(depa['realtimeText'].split(' ')[0])
-        depText = '-- {} || {} min. --'.format(depa['realtimeState'], minutes)
+        dTime = dTime + dt.timedelta(seconds=minutes * 60)
+        depText = '{} minuten te vroeg'.format(minutes)
+        # sys.stdout.write("\033[1;31m")
+    else:
+        depText = '-- {} || {} --' \
+            .format(depa['realtimeState'], depa['realtimeText'])
         # sys.stdout.write("\033[38;5;208m")
+
+    if dTime < now:
+        dTime = dTime + dt.timedelta(days=1)
 
     deltaNow = dTime - now
     deltaCalc = divmod(deltaNow.days * 86400 + deltaNow.seconds, 60)
     # sys.stdout.write("\033[1m")
     if deltaCalc[0] < 70:
-        departures_output.append('Bus {} is {} en vertrekt over {} minuten om {}.'.format(depa['service'],depText,deltaCalc[0],dTime.strftime('%H:%M')))
+        if deltaCalc[0] == 0:
+            departures_output.append(
+                'Bus {} is {} en vertrekt nu.'
+                .format(depa['service'], depText))
+        else:
+            departures_output.append(
+                'Bus {} is {} en vertrekt over {} minuten om {}.'
+                .format(depa['service'], depText,
+                        deltaCalc[0], dTime.strftime('%H:%M')))
     else:
         # sys.stdout.write("\033[0m")
         break
