@@ -3,15 +3,16 @@
 # widget_9292.py
 # a script to return upcoming departues for busses near my place of work
 #
-#
-
 # https://api.9292.nl/0.1/locations?lang=nl-NL&type=station,stop&q=plaszicht
 # https://api.9292.nl/0.1/locations/reeuwijk/bushalte-plaszicht/departure-times?lang=nl-NL
+#
+
+import datetime as dt
 # import sys
 import json
-import urllib.request
-import datetime as dt
 import pprint
+import urllib.request
+
 now = dt.datetime.now()
 pp = pprint.PrettyPrinter(indent=4)
 
