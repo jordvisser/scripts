@@ -50,7 +50,7 @@ departures_list = departures_filtered_dest  # [0:2]
 
 departures_output = []
 
-# pp.pprint(departures_list)
+#  pp.pprint(departures_list)
 
 for depa in departures_list:
     dTime_string = '{} {}'.format(now.strftime('%Y-%m-%d'), depa['time'])
